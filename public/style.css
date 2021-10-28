@@ -1,0 +1,22 @@
+body {
+    width: 90vw;
+    padding: 15px;
+}
+
+button{
+    padding: 5px;
+}
+
+/* Header */
+/* End Header */
+
+/* Sidebar list of Chores */
+    #listOfChores {
+        width: 20%;
+        float: right;
+    }
+/* End Sidebar list of Chores */
+
+
+
+/* Form */
