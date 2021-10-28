@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import AddTodo from "./AddTodoItem";
-import TodoItem from "./TodoItem";
+import AddChore from "./AddChore";
+import ChoreItem from "./ChoreItem";
 import Spinner from "./spinner";
 import {wheel} from "../public/Spinner";
 
@@ -10,15 +10,13 @@ class App extends Component {
     super(props);
 
     this.state = {
-      todo: []
+      chores: []
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.setColor = this.setColor.bind(this);
-    // this.handleCheck = this.handleCheck.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.delTodo = this.delTodo.bind(this);
+    this.delchores = this.delchores.bind(this);
     this.show = this.show.bind(this);
   }
 
@@ -27,16 +25,17 @@ class App extends Component {
       description: description,
       id: 1 + Math.random(),
       complete: false,
-      edit: false
+      edit: false,
+      checked: true
     };
 
-    this.state.todo.push(listItem);
-    this.setState({ todo: this.state.todo, description: ""});
+    this.state.chores.push(listItem);
+    this.setState({ chores: this.state.chores});
   }
 
   handleEdit(id) {
     this.setState(prevState => ({
-      todo: prevState.todo.map(listItem => {
+      chores: prevState.chores.map(listItem => {
         if(listItem.id == id){
           listItem.edit = !listItem.edit;
         }
@@ -50,7 +49,7 @@ class App extends Component {
 
 handleSave(editDescription, id) {
   this.setState(prevState => ({
-    todo: prevState.todo.map(listItem => {
+    chores: prevState.chores.map(listItem => {
       if(listItem.id == id){
         listItem.description = editDescription;
         listItem.edit = false;
@@ -59,75 +58,37 @@ handleSave(editDescription, id) {
     })
   })
  )
+ this.show(this.state.chores);
 }
 
-delTodo(id){
-  let deltempo = this.state.todo.filter((listItem) => {
+delchores(id){
+  let deltempo = this.state.chores.filter((listItem) => {
     if(listItem.id !== id){
       return listItem;
     } 
   });
-    this.setState({
-      todo: deltempo
+  this.setState({
+      chores: deltempo
       })
+  this.show(deltempo);
 };
 
-show() {
-  let ChoresList = [{"id":"1","chore":"Sweeping","area":"living room"},{"id":"2","chore":"Clean","area":"bathroom"},{"id":"3","chore":"Wash Walls","area":"Bedroom"},{"id":"4","chore":"Wash Walls","area":"LivingRoom"},{"id":"5","chore":"Wash Walls","area":"Kitchen"},{"id":"6","chore":"Wash Walls","area":"Hallway"},{"id":"7","chore":"Vacuum","area":"Bedroom"},{"id":"21","chore":"Vacuum","area":"living Room"},{"id":"74","chore":"Vacuum","area":"Hallway"},{"id":"8","chore":"Wash Clothes","area":""},{"id":"56","chore":"Wash Car","area":"Garage"}];
-  console.log("inside the async request",ChoresList)
-var venueContainer = $("#chore-list ul");
-$.each(ChoresList, function (key, item) {
-venueContainer.append(
-  $(document.createElement("li"))
-    .append(
-      $(document.createElement("input"))
-        .attr({
-          id: key,
-          name: item.chore,
-          value: item.chore,
-          type: "checkbox",
-          checked: true,
-        })
-        .change(function () {
-          var cbox = $(this)[0];
-          var segments = wheel.segments;
-          var i = segments.indexOf(cbox.value);
+show(chores) {
 
-          if (cbox.checked && i == -1) {
-            segments.push(cbox.value);
-          } else if (!cbox.checked && i != -1) {
-            segments.splice(i, 1);
-          }
+  var segments = new Array();
 
-          segments.sort();
-          wheel.update();
-        })
-    )
-    .append(
-      $(document.createElement("label"))
-        .attr({
-          for:key,
-        })
-        .text(item.chore)
-    )
-);
-});
-
-var segments = new Array();
-
-  $.each($("#chore-list input:checked"), function (key, cbox) {
-    console.log("These are all the checkboxes",cbox);
-    segments.push(cbox.value);
-
+  for(let i =0; i < chores.length; i++){
+    console.log("The string values of the chores item", chores[i].description);
+    segments.push(chores[i].description);
     console.log(segments);
-  });
+  }
 
   wheel.segments = segments;
   wheel.update();
 };
 
   render() {
-    const { todo } = this.state;
+    const { chores } = this.state;
     return (
       <div className="container">
        <header>
@@ -141,23 +102,23 @@ var segments = new Array();
         <hr className="tagline" />
 
         <div className="row">
-          <AddTodo handleSubmit={this.handleSubmit} show = {this.show}/>
-          <div className="col-md-8">
+          <AddChore handleSubmit={this.handleSubmit} show = {this.show} chores= {this.state.chores}/>
+          <div className="col-md-4">
             <div className="panel panel-default">
-              <div className="panel-heading">View Todos</div>
+              <div className="panel-heading">Chores</div>
               <div className="panel-body">
-                {todo.map(todo => (
-                  <TodoItem
+                {chores.map(chores => (
+                  <ChoreItem
                     handleCheck={this.handleCheck}
                     handleEdit = {this.handleEdit}
                     handleSave = {this.handleSave}
-                    delTodo = {this.delTodo}
-                    todo={todo}
-                    key={todo.id}
-                    description={todo.description}
-                    complete={todo.complete}
-                    edit={todo.edit}
-                    id={todo.id}
+                    delchores = {this.delchores}
+                    chores={chores}
+                    key={chores.id}
+                    description={chores.description}
+                    complete={chores.complete}
+                    edit={chores.edit}
+                    id={chores.id}
                   />
                 ))}
               </div>
@@ -165,7 +126,7 @@ var segments = new Array();
           </div>
         </div>
         <Spinner
-          todo={this.state.todo}
+          chores={this.state.chores}
           />
       </div>
     );
