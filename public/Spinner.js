@@ -10,9 +10,9 @@ let shuffle = function (o) {
 
 String.prototype.hashCode = function () {
   // See http://www.cse.yorku.ca/~oz/hash.html
-  var hash = 5381;
-  for (i = 0; i < this.length; i++) {
-    char = this.charCodeAt(i);
+  let hash = 5381;
+  for (let i = 0; i < this.length; i++) {
+    let char = this.charCodeAt(i);
     hash = (hash << 5) + hash + char;
     hash = hash & hash; // Convert to 32bit integer
   }
@@ -146,9 +146,9 @@ export const wheel = {
 
     // Generate a color cache (so we have consistant coloring)
     var seg_color = new Array();
-    for (var i = 0; i < len; i++)
+    for (var i = 0; i < len; i++){
       seg_color.push(colors[segments[i].hashCode().mod(colorLen)]);
-
+    }
     wheel.seg_color = seg_color;
 
     wheel.draw();

@@ -2,7 +2,7 @@ import React from 'react'
 import EditView from './EditView'
 
 
-class todoItem extends React.Component {
+class ChoreItem extends React.Component {
   constructor(props){
     super(props)
     this.state ={
@@ -15,15 +15,6 @@ class todoItem extends React.Component {
   handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
   }
-
-  // strikeThru(complete){
-  //   if(complete === true){
-  //     console.log(complete);
-  //     return'line-through'
-  //   }else{
-  //     return 'none'
-  //   }
-  // }
 
 
 render(){
@@ -55,7 +46,7 @@ return(
                   </button>
                 <button 
                 className='icon-button delete-todo'
-                onClick = {() => this.props.delTodo(this.props.id)}>
+                onClick = {() => this.props.delchores(this.props.id)}>
                   <span className="glyphicon glyphicon-trash"/>
                   </button>
               </div>
@@ -67,4 +58,4 @@ return(
 
 
 
-export default todoItem;
+export default ChoreItem;
